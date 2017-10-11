@@ -26,11 +26,10 @@ Since this is a very basic demo, I will not create configuration. Everything wil
 
 ##### worker
 
-For ease of understanding, we do creating the queue manually.
 In the real world, when creating the queue in the application, we should try binding the queue to the exchange to make sure we never miss any configuration.
 
-So in this example, just need to provide the queue name
-
-`$ node worker test_q`
+`$ node worker test_q dat.test test.1`
 
 - test_q: Name of the queue
+- dat.test: Name of the exchange
+- test.1: Routing key for the messages to that exchange
