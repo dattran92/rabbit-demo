@@ -25,6 +25,7 @@ const processMessage = (message) => {
 const start = async () => {
   await dmqp.connect();
   const queue = await dmqp.queue(queueName, exchangeName, routingKey);
+  
   queue.subscribe((message, headers, deliveryInfo, ack) => {
     processMessage(message)
       .then(() => {
