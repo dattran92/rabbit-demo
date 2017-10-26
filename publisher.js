@@ -17,9 +17,14 @@ const createMessages = (numberOfMessage) => {
     });
   }
   return messages;
-}
+};
 
 const start = async (messages) => {
+  await startSync(messages);
+};
+
+// everything in once
+const startAsync = async (messages) => {
   await dmqp.connect();
   const exchange = await dmqp.exchange(exchangeName);
 
@@ -34,6 +39,21 @@ const start = async (messages) => {
   await Promise.all(promises);
   dmqp.close();
 };
+
+// message goes after message
+const startSync = async (messages) => {
+  await dmqp.connect();
+  const exchange = await dmqp.exchange(exchangeName);
+  for (const message of messages) {
+    await exchange.publish(routingKey, message)
+      .then(() => {
+        console.log('Published', message);
+        return Promise.resolve();
+      });
+  }
+
+  dmqp.close();
+}
 
 const messages = createMessages(numberOfMessage);
 start(messages);

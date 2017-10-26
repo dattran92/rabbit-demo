@@ -18,14 +18,14 @@ const processMessage = (message) => {
       }
       console.log('fail', message);
       return reject();
-    }, 2000);
+    }, 20);
   });
 }
 
 const start = async () => {
   await dmqp.connect();
   const queue = await dmqp.queue(queueName, exchangeName, routingKey);
-  
+
   queue.subscribe((message, headers, deliveryInfo, ack) => {
     processMessage(message)
       .then(() => {
