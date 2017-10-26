@@ -46,10 +46,7 @@ const startSync = async (messages) => {
   const exchange = await dmqp.exchange(exchangeName);
   for (const message of messages) {
     await exchange.publish(routingKey, message)
-      .then(() => {
-        console.log('Published', message);
-        return Promise.resolve();
-      });
+    console.log('Published', message);
   }
 
   dmqp.close();
